@@ -167,14 +167,14 @@ const Team = () => (
             phone: "+90 533 377 20 98", 
             role: "Gayrimenkul Danışmanı", 
             init: "SE",
-            image: "https://drive.google.com/uc?export=view&id=1S96jyLhqtXJI99hSGTLvbuZse3xkkfw3"
+            image: "https://i.ibb.co/8gRft0kT/Whats-App-mage-2026-04-20-at-21-12-48.jpg"
           },
           { 
             name: "Ahmet Dursun", 
             phone: "+90 541 419 67 18", 
             role: "Yatırım Uzmanı", 
             init: "AD",
-            image: null
+            image: "https://i.ibb.co/gbmvzGYL/Whats-App-mage-2026-04-20-at-21-11-37.jpg"
           }
         ].map((m, idx) => (
           <div key={idx} className="bg-white dark:bg-dark-surface p-8 rounded-lg card-shadow flex items-center gap-8 border-l-4 border-brand-navy dark:border-blue-500 group hover:bg-gray-50 dark:hover:bg-dark-border transition-all duration-300">

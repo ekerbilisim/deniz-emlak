@@ -10,70 +10,15 @@ import { ThemeContext } from "./context/ThemeContext";
 export const Logo = ({ isDark: manualIsDark, className = "" }: { isDark?: boolean; className?: string }) => {
   const { isDark: contextIsDark } = useContext(ThemeContext);
   const isDark = manualIsDark !== undefined ? manualIsDark : contextIsDark;
-  const color = isDark ? "#FFFFFF" : "#0B2556";
   
   return (
-    <div className={`inline-flex flex-col items-center justify-center ${className}`}>
-      <svg 
-        viewBox="0 0 540 180" 
-        className="w-full h-auto"
-        fill="none" 
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        {/* D */}
-        <path d="M40 40H85C110 40 130 60 130 85C130 110 110 130 85 130H40V40ZM70 110H85C97 110 108 100 108 85C108 70 97 60 85 60H70V110Z" fill={color} />
-        
-        {/* ICON (Sun & Waves) */}
-        <g transform="translate(195, 85)">
-          {/* Rays - 9 rays in 180deg arc */}
-          {[0, 22.5, 45, 67.5, 90, 112.5, 135, 157.5, 180].map((deg) => (
-             <rect 
-               key={deg}
-               x="-3" 
-               y="-48" 
-               width="6" 
-               height="14" 
-               rx="2" 
-               fill={color} 
-               transform={`rotate(${deg - 90})`} 
-             />
-          ))}
-          {/* Sun Disk (Solid Half Circle) */}
-          <path d="M-28 0C-28 -15.464 -15.464 -28 0 -28C15.464 -28 28 -15.464 28 0H-28Z" fill={color} />
-          {/* Disk middle bar */}
-          <rect x="0" y="-4" width="28" height="8" fill={color} />
-          
-          {/* Waves */}
-          <g transform="translate(0, 10)">
-            <path d="M-35 10Q-17.5 0 0 10T35 10" stroke={color} strokeWidth="8" strokeLinecap="round" />
-            <path d="M-35 25Q-17.5 15 0 25T35 25" stroke={color} strokeWidth="8" strokeLinecap="round" />
-            <path d="M-35 40Q-17.5 30 0 40T35 40" stroke={color} strokeWidth="8" strokeLinecap="round" />
-          </g>
-        </g>
-
-        {/* N */}
-        <path d="M260 40H290L330 95V40H355V130H325L285 75V130H260V40Z" fill={color} />
-        
-        {/* İ */}
-        <g transform="translate(378, 0)">
-          <rect x="10" y="40" width="24" height="90" fill={color} />
-          <rect x="10" y="5" width="24" height="24" rx="4" fill={color} />
-        </g>
-
-        {/* Z */}
-        <path d="M430 40H500V65L460 105H500V130H430V105L470 65H430V40Z" fill={color} />
-
-        {/* Subtitle */}
-        <text 
-          x="270" 
-          y="170" 
-          textAnchor="middle" 
-          fill={color} 
-          style={{ font: 'bold 28px "Inter", sans-serif', letterSpacing: '0.45em' }}
-        >
-          GAYRİMENKUL - YATIRIM
-        </text>
-      </svg>
+    <div className={`inline-flex items-center justify-center ${className}`}>
+      <img 
+        src="https://i.ibb.co/N22StdM5/Logo-Photoroom.png" 
+        alt="Deniz Emlak"
+        className={`w-full h-auto object-contain ${isDark ? 'brightness-0 invert' : ''}`}
+        referrerPolicy="no-referrer"
+      />
     </div>
   );
 };
