@@ -2,7 +2,7 @@
   "name": "deniz-emlak",
   "private": true,
   "version": "0.0.0",
-  "homepage": "http://denizemlakbogazliyan.com",
+  "homepage": "https://denizemlakbogazliyan.com",
   "type": "module",
   "scripts": {
     "dev": "tsx server.ts",
