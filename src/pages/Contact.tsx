@@ -59,9 +59,24 @@ const Contact = () => {
         return;
       }
 
-      // Simulation of a successful send (Since static pages don't have a backend)
-      // Note: In production, integrate with a service like Formspree or Getform for real emails.
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Integration with FormSubmit.co
+      const response = await fetch("https://formsubmit.co/ajax/ugure47@gmail.com", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify({
+          ...formData,
+          _subject: `Yeni İletişim Formu: ${formData.firstName} ${formData.lastName}`,
+          _captcha: "false", // We are using Cloudflare Turnstile instead
+          "cf-turnstile-response": turnstileToken
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error("Form gönderilemedi.");
+      }
 
       limitData.count += 1;
       localStorage.setItem(storageKey, JSON.stringify(limitData));
@@ -71,7 +86,7 @@ const Contact = () => {
       setTurnstileToken(null);
       turnstileRef.current?.reset();
     } catch (error) {
-      setErrorMessage('İşlem sırasında bir sorun oluştu.');
+      setErrorMessage('Mesaj gönderilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
       setFormState('error');
     }
   };
