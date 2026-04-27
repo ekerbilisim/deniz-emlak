@@ -2,13 +2,15 @@ import { motion } from "motion/react";
 import { Phone, MapPin, MessageSquare, Send, CheckCircle2, AlertCircle } from "lucide-react";
 import { Logo } from "../App";
 import { ThemeContext } from "../context/ThemeContext";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useRef } from "react";
+import { Turnstile, TurnstileInstance } from "@marsidev/react-turnstile";
 
 const Contact = () => {
   const { isDark } = useContext(ThemeContext);
   const address = "Yenidoğan Mah. Gökveren Cad. No: 5, Boğazlıyan / Yozgat";
   const phone1 = "+90 533 377 20 98";
   const whatsappLink = `https://wa.me/905333772098`;
+  const turnstileRef = useRef<TurnstileInstance>(null);
 
   const mapAppUrl = (typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent))
     ? `maps://?q=${encodeURIComponent(address)}`
@@ -16,6 +18,7 @@ const Contact = () => {
 
   const [formState, setFormState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -28,6 +31,13 @@ const Contact = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!turnstileToken) {
+      setErrorMessage("Lütfen robot olmadığınızı doğrulayın.");
+      setFormState('error');
+      return;
+    }
+
     setFormState('loading');
     setErrorMessage('');
 
@@ -51,13 +61,15 @@ const Contact = () => {
 
       // Simulation of a successful send (Since static pages don't have a backend)
       // Note: In production, integrate with a service like Formspree or Getform for real emails.
-      await new Promise(resolve => setTimeout(resolve, 1200));
+      await new Promise(resolve => setTimeout(resolve, 1500));
 
       limitData.count += 1;
       localStorage.setItem(storageKey, JSON.stringify(limitData));
 
       setFormState('success');
       setFormData({ firstName: '', lastName: '', phone: '', message: '' });
+      setTurnstileToken(null);
+      turnstileRef.current?.reset();
     } catch (error) {
       setErrorMessage('İşlem sırasında bir sorun oluştu.');
       setFormState('error');
@@ -177,13 +189,22 @@ const Contact = () => {
                     </div>
                   )}
 
-                  {/* Google Captcha Placeholder */}
-                  <div className="bg-gray-50 dark:bg-dark-bg p-4 rounded border border-gray-100 dark:border-dark-border flex items-center justify-center">
-                    <div className="flex items-center gap-3 text-xs text-gray-400 dark:text-dark-muted font-semibold">
-                      <div className="w-4 h-4 border-2 border-gray-200 dark:border-dark-border rounded"></div>
-                      Ben robot değilim
-                      <img src="https://www.gstatic.com/recaptcha/api2/logo_48.png" alt="reCAPTCHA" className="h-6 opacity-30 ml-4 grayscale invert dark:invert-0" />
-                    </div>
+                  {/* Cloudflare Turnstile */}
+                  <div className="flex justify-center my-2">
+                    <Turnstile
+                      ref={turnstileRef}
+                      siteKey="0x4AAAAAADELWGyxOFjEv1tu"
+                      onSuccess={(token) => setTurnstileToken(token)}
+                      onError={() => {
+                        setErrorMessage("Güvenlik doğrulaması başarısız oldu. Lütfen sayfayı yenileyip tekrar deneyin.");
+                        setFormState('error');
+                      }}
+                      onExpire={() => setTurnstileToken(null)}
+                      options={{
+                        theme: isDark ? 'dark' : 'light',
+                        size: 'normal',
+                      }}
+                    />
                   </div>
 
                   <button 
