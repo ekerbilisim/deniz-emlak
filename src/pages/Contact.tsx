@@ -218,6 +218,7 @@ const Contact = () => {
                       options={{
                         theme: isDark ? 'dark' : 'light',
                         size: 'normal',
+                        appearance: 'interaction-only',
                       }}
                     />
                   </div>

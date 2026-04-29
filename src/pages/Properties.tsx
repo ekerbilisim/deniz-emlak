@@ -67,7 +67,7 @@ const Properties = () => {
               Takipte Kalın
             </p>
             <a 
-              href="https://denizboyaliyan.sahibinden.com/" 
+              href="https://denizemlakbogazliyan.sahibinden.com/?userId=a6KgnJEsq-Lhqvx0ASE661A" 
               target="_blank" 
               rel="noopener noreferrer"
               className="flex items-center gap-3 bg-brand-navy text-white px-8 py-4 rounded-xl font-bold shadow-xl hover:bg-brand-dark transition-all hover:scale-105"
